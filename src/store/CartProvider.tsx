@@ -63,8 +63,8 @@ const CartProvider = (props: any) => {
     defaultCartState
   );
 
-  const addItemToCartHandler = (item: any) => {
-    dispatchCartAction({ type: "ADD", item: item });
+  const addItemToCartHandler = (item: any, amount: number = -1) => {
+    dispatchCartAction({ type: "ADD", item: item, amount: amount });
   };
 
   const removeItemFromCartHandler = (id: string) => {
