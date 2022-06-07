@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import CartContext from "../../../store/cart-context";
+import { useDispatch } from "react-redux";
 import classes from "./MealItem.module.css";
 import MealItemForm from "./MealItemForm";
 
@@ -9,16 +9,26 @@ const MealItem = (props: {
   description: string;
   id: string;
 }) => {
-  const cardCtx = useContext(CartContext);
+  const itemDispatch = useDispatch();
 
   const price = `$${props.price.toFixed(2)}`;
 
   const addToCartHandler = (amount: number) => {
-    cardCtx.addItem({
-      id: props.id,
-      name: props.name,
-      amount: amount,
-      price: props.price,
+    // cardCtx.addItem({
+    //   id: props.id,
+    //   name: props.name,
+    //   amount: amount,
+    //   price: props.price,
+    // });
+
+    itemDispatch({
+      type: "ADD",
+      item: {
+        id: props.id,
+        name: props.name,
+        amount: amount,
+        price: props.price,
+      },
     });
   };
   return (

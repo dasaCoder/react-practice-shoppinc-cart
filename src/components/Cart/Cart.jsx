@@ -1,24 +1,29 @@
 import { useContext } from "react";
-import CartContext from "../../store/cart-context";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "../UI/Modal";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 
 const Cart = (props) => {
-  const cartCtx = useContext(CartContext);
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-  const hasItems = cartCtx.items.length > 0;
+  const itemsFromStore = useSelector((state) => state.items);
+  const totalFromStore = useSelector((state) => state.totalAmount);
+  const itemDispatch = useDispatch();
+
+  const totalAmount = `$${totalFromStore.toFixed(2)}`;
+  const hasItems = itemsFromStore.length > 0;
 
   const cartItemRemoveHandler = (id) => {
-    cartCtx.removeItem(id);
+    // cartCtx.removeItem(id);
+    itemDispatch({ type: "REMOVE", id: id });
   };
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem(item);
+    // cartCtx.addItem(item);
+    itemDispatch({ type: "ADD", item: item });
   };
 
   const cartItems = (
     <ul className={classes["cart-items"]}>
-      {cartCtx.items.map((item) => {
+      {itemsFromStore.map((item) => {
         return (
           <CartItem
             key={item.id}
